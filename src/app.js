@@ -7,7 +7,7 @@ const connectionString = '';
 
 // RASPBERRY PI CODE
 
-const MICROSECDONDS_PER_CM = 1e6 / 34321;
+const MICROSECONDS_PER_CM = 1e6 / 34321;
 
 const trigger = new Gpio(23, { mode: Gpio.OUTPUT });
 const echo = new Gpio(24, { mode: Gpio.INPUT, alert: true });
@@ -30,7 +30,7 @@ const watchHCSR04 = () => {
     } else {
       const endTick = tick;
       const diff = (endTick >> 0) - (startTick >> 0);
-      distInCm = diff / 2 / MICROSECDONDS_PER_CM;
+      distInCm = diff / 2 / MICROSECONDS_PER_CM;
 
       console.log(`${Math.round(distInCm * 10) / 10} cm.`);
 
@@ -103,7 +103,7 @@ app.post('/saveDataToDb', async (req, res) => {
     await sql.query(
       `INSERT INTO RpiData (Distance, RedLEDState, GreenLEDState) VALUES (${distance}, '${redLedState}', '${greenLedState}')`
     );
-    const blinkInterval = setInterval(blinkYellowLED, 200);
+    setInterval(blinkYellowLED, 200);
     setTimeout(endBlink, 2000);
   } catch (err) {
     console.log(err);
